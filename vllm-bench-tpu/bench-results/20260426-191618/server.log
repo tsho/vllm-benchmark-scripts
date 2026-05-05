@@ -1,0 +1,25 @@
+INFO 04-26 19:16:21 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 04-26 19:16:21 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 04-26 19:16:21 [interface.py:229] Failed to import from vllm._C: ImportError('libcuda.so.1: cannot open shared object file: No such file or directory')
+Traceback (most recent call last):
+  File "/home/sho/.venvs/vllm/bin/vllm", line 6, in <module>
+    sys.exit(main())
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/entrypoints/cli/main.py", line 68, in main
+    cmd.subparser_init(subparsers).set_defaults(dispatch_function=cmd.cmd)
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/entrypoints/cli/serve.py", line 138, in subparser_init
+    serve_parser = make_arg_parser(serve_parser)
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/entrypoints/openai/cli_args.py", line 349, in make_arg_parser
+    parser = AsyncEngineArgs.add_cli_args(parser)
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/engine/arg_utils.py", line 2264, in add_cli_args
+    parser = EngineArgs.add_cli_args(parser)
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/engine/arg_utils.py", line 1294, in add_cli_args
+    vllm_kwargs = get_kwargs(VllmConfig)
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/engine/arg_utils.py", line 369, in get_kwargs
+    return copy.deepcopy(_compute_kwargs(cls))
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/engine/arg_utils.py", line 280, in _compute_kwargs
+    default = default.default_factory()  # type: ignore[call-arg]
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/pydantic/_internal/_dataclasses.py", line 121, in __init__
+    s.__pydantic_validator__.validate_python(ArgsKwargs(args, kwargs), self_instance=s)
+  File "/home/sho/.venvs/vllm/lib/python3.10/site-packages/vllm/config/device.py", line 56, in __post_init__
+    raise RuntimeError(
+RuntimeError: Failed to infer device type, please set the environment variable `VLLM_LOGGING_LEVEL=DEBUG` to turn on verbose logging to help debug the issue.

@@ -1,0 +1,1 @@
+["vllm/vllm-tpu@sha256:f4b0b00bb8cab913050fadc36f85c0e090cb4dacc5f66e1122d1fba7bf28c199"]

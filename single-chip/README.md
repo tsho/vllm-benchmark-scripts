@@ -31,8 +31,8 @@ v6e-1 では KV cache に残り ~8GB しかないため `MAX_LEN` / `MAX_NUM_SEQ
 
 ## 実行前の確認事項
 
-- [ ] Gemma 4 12B の HF モデル ID (`google/gemma-4-12B-it` を仮置き。要確認)
-- [ ] vLLM TPU image のタグ (31B は `vllm/vllm-tpu:gemma4` だった。12B で同じか要確認)
+- [x] Gemma 4 12B の HF モデル ID: `google/gemma-4-12B-it` (確認済み 2026-07-22)
+- [x] vLLM image: TPU/GPU とも `v0.25.0` に統一 (確認済み 2026-07-22。両リポジトリにタグ実在)
 - [ ] v6e-1 / a2-ultragpu-1g のゾーン在庫: `bash ../check-quota.sh`
 - [ ] 実行時点の on-demand 時間単価を記録 (コスト計算の分母。記事に載せる)
 

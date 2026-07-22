@@ -6,7 +6,7 @@
 #   HF_TOKEN=hf_xxx bash ~/run-vllm-gpu-docker.sh
 #
 # 環境変数で上書き可:
-#   IMAGE        (default: vllm/vllm-openai:latest)
+#   IMAGE        (default: vllm/vllm-openai:v0.25.0)
 #   MODEL        (default: google/gemma-4-12B-it) # HF ID は要確認
 #   MAX_LEN      (default: 8192)  TPU 側と揃える (公平性)
 #   MAX_NUM_SEQS (default: 16)    基本系列は TPU 側の採用値と同値に揃える。
@@ -22,7 +22,7 @@ set -euo pipefail
 
 : "${HF_TOKEN:?HF_TOKEN 必須}"
 
-IMAGE="${IMAGE:-vllm/vllm-openai:latest}"
+IMAGE="${IMAGE:-vllm/vllm-openai:v0.25.0}"
 MODEL="${MODEL:-google/gemma-4-12B-it}"
 TP=1
 MAX_LEN="${MAX_LEN:-8192}"

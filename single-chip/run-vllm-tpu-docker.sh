@@ -6,7 +6,7 @@
 #   HF_TOKEN=hf_xxx bash ~/run-vllm-tpu-docker.sh
 #
 # 環境変数で上書き可:
-#   IMAGE        (default: vllm/vllm-tpu:gemma4)  # 12B 用タグの有無は要確認
+#   IMAGE        (default: vllm/vllm-tpu:v0.25.0)  # TPU/GPU で vLLM バージョンを v0.25.0 に統一
 #   MODEL        (default: google/gemma-4-12B-it) # HF ID は要確認
 #   MAX_LEN      (default: 8192)  long プロファイル 4096+1024 が収まる最小の2べき
 #   MAX_NUM_SEQS (default: 16)    v6e-1 は重み 24GB / HBM 32GB で KV ~8GB のため要チューニング。
@@ -21,7 +21,7 @@ set -euo pipefail
 
 : "${HF_TOKEN:?HF_TOKEN 必須}"
 
-IMAGE="${IMAGE:-vllm/vllm-tpu:gemma4}"
+IMAGE="${IMAGE:-vllm/vllm-tpu:v0.25.0}"
 MODEL="${MODEL:-google/gemma-4-12B-it}"
 TP=1
 MAX_LEN="${MAX_LEN:-8192}"

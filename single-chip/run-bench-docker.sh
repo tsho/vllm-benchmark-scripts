@@ -104,8 +104,10 @@ sudo docker exec "$CONTAINER" vllm bench serve \
   > "$OUT_DIR/warmup.log" 2>&1 || true
 
 # sweep (PLAN.md のプロファイル)
-PROFILES=("128:128:short" "1024:512:medium" "4096:1024:long")
-RATES=(1 2 4 8 16 32 inf)
+# 環境変数で部分実行可 (スペース区切り):
+#   RATES="inf" PROFILES="1024:512:medium" CONTAINER=... bash run-bench-docker.sh
+read -r -a PROFILES <<< "${PROFILES:-128:128:short 1024:512:medium 4096:1024:long}"
+read -r -a RATES <<< "${RATES:-1 2 4 8 16 32 inf}"
 
 for prof in "${PROFILES[@]}"; do
   IFS=: read -r in_len out_len name <<< "$prof"

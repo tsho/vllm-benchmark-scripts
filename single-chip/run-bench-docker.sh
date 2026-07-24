@@ -46,7 +46,7 @@ fi
 cleanup_inner_bench() {
   sudo docker exec "$CONTAINER" pkill -f "vllm bench serve" >/dev/null 2>&1 || true
 }
-trap 'echo "interrupted — コンテナ内の bench プロセスを停止します"; cleanup_inner_bench; exit 130' INT TERM
+trap 'echo "interrupted — コンテナ内の bench プロセスを停止します"; cleanup_inner_bench; exit 130' INT TERM HUP
 
 # サーバ ready 確認
 if ! curl -sf "http://${HOST}:${PORT}/v1/models" >/dev/null 2>&1; then

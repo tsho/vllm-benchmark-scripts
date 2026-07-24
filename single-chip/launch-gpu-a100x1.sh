@@ -30,6 +30,7 @@ gcloud compute instances create "$NAME" \
   --boot-disk-size="$DISK_SIZE" --boot-disk-type=pd-ssd \
   --maintenance-policy=TERMINATE --restart-on-failure \
   --metadata="install-nvidia-driver=True" \
+  --metadata-from-file="startup-script=$(dirname "$0")/startup-gpu.sh" \
   --scopes=cloud-platform
 
 cat <<EOF

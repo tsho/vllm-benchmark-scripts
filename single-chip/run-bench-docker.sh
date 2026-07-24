@@ -32,6 +32,22 @@ if ! sudo docker ps --format '{{.Names}}' | grep -q "^${CONTAINER}$"; then
   exit 1
 fi
 
+# 残党チェック: Ctrl-C はホスト側の docker exec しか殺さず、コンテナ内の
+# vllm bench serve は生き残る。複数クライアントが同居すると結果が全滅するので、
+# 既にいる場合は実行を拒否する。
+if sudo docker exec "$CONTAINER" pgrep -f "vllm bench serve" >/dev/null 2>&1; then
+  echo "ERROR: コンテナ内に vllm bench serve が既に動いています。" >&2
+  echo "  確認: sudo docker exec $CONTAINER ps aux | grep 'bench serve'" >&2
+  echo "  一掃: sudo docker restart $CONTAINER (キューも掃除される)" >&2
+  exit 1
+fi
+
+# Ctrl-C / kill でスクリプトを止めるときはコンテナ内のベンチも道連れにする
+cleanup_inner_bench() {
+  sudo docker exec "$CONTAINER" pkill -f "vllm bench serve" >/dev/null 2>&1 || true
+}
+trap 'echo "interrupted — コンテナ内の bench プロセスを停止します"; cleanup_inner_bench; exit 130' INT TERM
+
 # サーバ ready 確認
 if ! curl -sf "http://${HOST}:${PORT}/v1/models" >/dev/null 2>&1; then
   echo "ERROR: http://${HOST}:${PORT}/v1/models に到達できません" >&2

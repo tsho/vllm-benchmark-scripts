@@ -7,9 +7,9 @@
 #
 # 環境変数で上書き可:
 #   IMAGE        (default: vllm/vllm-openai:v0.25.0)
-#   MODEL        (default: google/gemma-4-12B-it) # HF ID は要確認
+#   MODEL        (default: Qwen/Qwen3-8B)  TPU 側と同一モデルに揃える (経緯は TPU 側スクリプト参照)
 #   MAX_LEN      (default: 8192)  TPU 側と揃える (公平性)
-#   MAX_NUM_SEQS (default: 16)    基本系列は TPU 側の採用値と同値に揃える。
+#   MAX_NUM_SEQS (default: 32)    基本系列は TPU 側の採用値と同値に揃える。
 #                                 「A100 の余裕を開放した系列」を取るときだけ 128 等に上げ、
 #                                 別系列として記録する。
 #   MAX_BATCHED_TOKENS (default: 4096)  TPU 側と同値に揃える (公平性)。
@@ -24,14 +24,14 @@ set -euo pipefail
 : "${HF_TOKEN:?HF_TOKEN 必須}"
 
 IMAGE="${IMAGE:-vllm/vllm-openai:v0.25.0}"
-MODEL="${MODEL:-google/gemma-4-12B-it}"
+MODEL="${MODEL:-Qwen/Qwen3-8B}"
 TP=1
 MAX_LEN="${MAX_LEN:-8192}"
-MAX_NUM_SEQS="${MAX_NUM_SEQS:-16}"
+MAX_NUM_SEQS="${MAX_NUM_SEQS:-32}"
 MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-4096}"
 GPU_MEM_UTIL="${GPU_MEM_UTIL:-0.90}"
 PORT="${PORT:-8000}"
-NAME="${NAME:-gemma4-12b-gpu}"
+NAME="${NAME:-qwen3-8b-gpu}"
 
 # 既存コンテナを片付け
 sudo docker rm -f "$NAME" 2>/dev/null || true

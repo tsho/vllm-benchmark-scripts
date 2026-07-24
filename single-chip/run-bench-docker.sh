@@ -9,11 +9,11 @@
 #   long   : in 4096 / out 1024  (長文生成・コード)
 #
 # 使い方:
-#   CONTAINER=gemma4-12b-tpu bash run-bench-docker.sh
+#   CONTAINER=qwen3-8b-tpu bash run-bench-docker.sh
 #
 # 環境変数:
 #   CONTAINER   サーバが動いているコンテナ名 (必須)
-#   MODEL       (default: google/gemma-4-12B-it)
+#   MODEL       (default: Qwen/Qwen3-8B)
 #   HOST/PORT   (default: 127.0.0.1:8000)
 #   NUM_PROMPTS (default: 500)  単チップは吸収能力が低いので 31B 版の 1000 から半減。
 #                               両プラットフォームで同値にすること。
@@ -21,8 +21,8 @@
 
 set -euo pipefail
 
-CONTAINER="${CONTAINER:?CONTAINER 必須 (例: gemma4-12b-tpu)}"
-MODEL="${MODEL:-google/gemma-4-12B-it}"
+CONTAINER="${CONTAINER:?CONTAINER 必須 (例: qwen3-8b-tpu)}"
+MODEL="${MODEL:-Qwen/Qwen3-8B}"
 HOST="${HOST:-127.0.0.1}"
 PORT="${PORT:-8000}"
 NUM_PROMPTS="${NUM_PROMPTS:-500}"

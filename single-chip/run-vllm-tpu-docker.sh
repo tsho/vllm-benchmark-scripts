@@ -12,6 +12,11 @@
 #   MAX_NUM_SEQS (default: 16)    v6e-1 は重み 24GB / HBM 32GB で KV ~8GB のため要チューニング。
 #                                 起動失敗 (KV 確保不可) なら 8 に、余裕があれば 32 に。
 #                                 採用値は記事に載せるので必ず記録すること。
+#   MAX_BATCHED_TOKENS (default: 4096)
+#                                 マルチモーダル対応モデル + --disable_chunked_mm_input の組合せは
+#                                 max_tokens_per_mm_item (Gemma 4 系は 2496) 以上が必須。
+#                                 デフォルトの 2048 だと起動時に ValueError で落ちる。
+#                                 GPU 側と同値に揃えること (公平性)。
 #   PORT         (default: 8000)
 #
 # KV cache dtype は指定しない (auto)。起動ログに出る実際の dtype を記録する:
@@ -26,6 +31,7 @@ MODEL="${MODEL:-google/gemma-4-12B-it}"
 TP=1
 MAX_LEN="${MAX_LEN:-8192}"
 MAX_NUM_SEQS="${MAX_NUM_SEQS:-16}"
+MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-4096}"
 PORT="${PORT:-8000}"
 NAME="${NAME:-gemma4-12b-tpu}"
 
@@ -41,6 +47,7 @@ sudo docker run -itd --name "$NAME" \
       --tensor-parallel-size "$TP" \
       --max-model-len "$MAX_LEN" \
       --max-num-seqs "$MAX_NUM_SEQS" \
+      --max-num-batched-tokens "$MAX_BATCHED_TOKENS" \
       --disable_chunked_mm_input \
       --host 0.0.0.0 --port "$PORT"
 

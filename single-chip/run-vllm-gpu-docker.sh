@@ -12,6 +12,7 @@
 #   MAX_NUM_SEQS (default: 16)    基本系列は TPU 側の採用値と同値に揃える。
 #                                 「A100 の余裕を開放した系列」を取るときだけ 128 等に上げ、
 #                                 別系列として記録する。
+#   MAX_BATCHED_TOKENS (default: 4096)  TPU 側と同値に揃える (公平性)。
 #   GPU_MEM_UTIL (default: 0.90)
 #   PORT         (default: 8000)
 #
@@ -27,6 +28,7 @@ MODEL="${MODEL:-google/gemma-4-12B-it}"
 TP=1
 MAX_LEN="${MAX_LEN:-8192}"
 MAX_NUM_SEQS="${MAX_NUM_SEQS:-16}"
+MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-4096}"
 GPU_MEM_UTIL="${GPU_MEM_UTIL:-0.90}"
 PORT="${PORT:-8000}"
 NAME="${NAME:-gemma4-12b-gpu}"
@@ -43,6 +45,7 @@ sudo docker run -itd --name "$NAME" \
     --tensor-parallel-size "$TP" \
     --max-model-len "$MAX_LEN" \
     --max-num-seqs "$MAX_NUM_SEQS" \
+    --max-num-batched-tokens "$MAX_BATCHED_TOKENS" \
     --gpu-memory-utilization "$GPU_MEM_UTIL" \
     --host 0.0.0.0 --port "$PORT"
 
